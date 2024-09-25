@@ -1,33 +1,27 @@
-import React, { Component } from 'react';
+import React, {} from 'react';
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
 import axios from "axios";
 
-class join extends Component {
+const Join = () => {
 
-	constructor(props) {
-		super(props);
-		this.state = {
-		}
-	}
+	const duplicateIdchk = async () => {
 
-	duplicateIdchk = async (e) => {
+		const mid_chk = $("#mid").val();
 
-		this.mid_chk = $("#mid").val();
-
-		this.fnValidate = (e) => {
-			if (this.mid_chk === '') {
+		const fnValidate = () => {
+			if (mid_chk === '') {
 				return false;
 			}
 			return true;
 		}
 
-		if (this.fnValidate()) {
+		if (fnValidate()) {
 
-			this.mid_val = $("#mid").val();
+			const mid_val = $("#mid").val();
 
 			axios.post('http://localhost:8080/member/idcheck', {
-				mid: this.mid_val
+				mid: mid_val
 			})
 				.then(response => {
 					try {
@@ -48,35 +42,35 @@ class join extends Component {
 		}
 	}
 
-	submitClick = async (e) => {
+	const submitClick = async () => {
 
-		this.mid_chk = $("#mid").val();
-		this.memail1_chk = $('#memail1').val();
-		this.memail2_chk = $('#memail2').val();
-		this.mpw_chk = $('#mpw').val();
-		this.confirmPassword_chk = $('#confirmPassword').val();
-		this.mname_chk = $('#mname').val();
-		this.mcell1_chk = $('#mcell1').val();
-		this.mcell2_chk = $('#mcell2').val();
-		this.mcell3_chk = $('#mcell3').val();
+		const mid_chk = $("#mid").val();
+		const memail1_chk = $('#memail1').val();
+		const memail2_chk = $('#memail2').val();
+		const mpw_chk = $('#mpw').val();
+		const confirmPassword_chk = $('#confirmPassword').val();
+		const mname_chk = $('#mname').val();
+		const mcell1_chk = $('#mcell1').val();
+		const mcell2_chk = $('#mcell2').val();
+		const mcell3_chk = $('#mcell3').val();
 
-		this.fnValidate = (e) => {
+		const fnValidate = () => {
 			var pattern1 = /[0-9]/;
 			var pattern2 = /[a-zA-Z]/;
 			var pattern3 = /[~!@#$%^&*()_+|<>?:{}]/;
 
-			if (this.mid_chk === '') {
+			if (mid_chk === '') {
 				$('#mid').addClass('border_validate_err');
 				alert('아이디를 다시 확인해주세요.')
 				return false;
 			}
 
-			if (this.mname_chk === '') {
+			if (mname_chk === '') {
 				$('#mname').addClass('border_validate_err');
 				alert('성명을 입력해주세요.')
 				return false;
 			}
-			if (this.mname_chk.search(/\s/) !== -1) {
+			if (mname_chk.search(/\s/) !== -1) {
 				$('#mname').addClass('border_validate_err');
 				alert('성명에 공백을 제거해 주세요.')
 				return false;
@@ -84,13 +78,13 @@ class join extends Component {
 			$('#mname').removeClass('border_validate_err');
 
 
-			if (this.mpw_chk === '') {
+			if (mpw_chk === '') {
 				$('#mpw').addClass('border_validate_err');
 				alert('비밀번호를 입력해주세요.')
 				return false;
 			}
-			if (this.mpw_chk !== '') {
-				var str = this.mpw_chk;
+			if (mpw_chk !== '') {
+				const str = mpw_chk;
 				if (str.search(/\s/) !== -1) {
 					$('#mpw').addClass('border_validate_err');
 					alert('비밀번호 공백을 제거해 주세요.')
@@ -105,12 +99,12 @@ class join extends Component {
 			}
 			$('#mpw').removeClass('border_validate_err');
 
-			if (this.confirmPassword_chk === '') {
+			if (confirmPassword_chk === '') {
 				$('#confirmPassword').addClass('border_validate_err');
 				alert('비밀번호 확인을 입력해주세요.')
 				return false;
 			}
-			if (this.mpw_chk !== this.confirmPassword_chk) {
+			if (mpw_chk !== confirmPassword_chk) {
 				$('#pwd_val').addClass('border_validate_err');
 				$('#confirmPassword').addClass('border_validate_err');
 				alert('비밀번호가 일치하지 않습니다.')
@@ -118,8 +112,8 @@ class join extends Component {
 			}
 			$('#confirmPassword').removeClass('border_validate_err');
 
-			if (this.mcell1_chk === '' || this.mcell2_chk === ''
-				|| this.mcell3_chk === '') {
+			if (mcell1_chk === '' || mcell2_chk === ''
+				|| mcell3_chk === '') {
 				$('#mcell1').addClass('border_validate_err');
 				$('#mcell2').addClass('border_validate_err');
 				$('#mcell3').addClass('border_validate_err');
@@ -130,21 +124,21 @@ class join extends Component {
 			$('#mcell2').removeClass('border_validate_err');
 			$('#mcell3').removeClass('border_validate_err');
 
-			if (this.memail1_chk === '') {
+			if (memail1_chk === '') {
 				$('#memail1').addClass('border_validate_err');
 				alert('이메일 주소를 다시 확인해주세요.')
 				return false;
 			}
 
 
-			if (this.memail1_chk.search(/\s/) !== -1) {
+			if (memail1_chk.search(/\s/) !== -1) {
 				$('#memail1').addClass('border_validate_err');
 				alert('이메일 공백을 제거해 주세요.')
 				return false;
 			}
 			$('#email_val').removeClass('border_validate_err');
 
-			if (this.memail2_chk === '') {
+			if (memail2_chk === '') {
 				$('#memail2').addClass('border_validate_err');
 				alert('이메일 주소를 다시 확인해주세요.')
 				return false;
@@ -154,14 +148,13 @@ class join extends Component {
 			return true;
 		}
 
-		if (this.fnValidate()) {
-			this.state.full_email = this.memail1_chk + '@' + this.memail2_chk
+		if (fnValidate()) {
 			axios.post('http://localhost:8080/member/emailCheck', {
-				memail: this.memail1_chk + '@' + this.memail2_chk
+				memail: memail1_chk + '@' + memail2_chk
 			})
 				.then(response => {
 					try {
-						const dupli_count = response.data.eamilCheck[0].count;
+						const dupli_count = response.data.emailCheck[0].count;
 						if (dupli_count !== 0) {
 							$('#memail1').addClass('border_validate_err');
 							$('#memail2').addClass('border_validate_err');
@@ -169,16 +162,16 @@ class join extends Component {
 						} else {
 							$('#memail1').removeClass('border_validate_err');
 							$('#memail2').removeClass('border_validate_err');
-							this.fnSignInsert(e);
+							fnSignInsert();
 						}
 					} catch (error) {
-						alert('작업중 오류가 발생하였습니다.')
+						alert('이메일 중복체크 작업 중 오류가 발생하였습니다.')
 					}
 				})
 				.catch(response => { return false; });
 		}
 
-		this.fnSignInsert = async (e) => {
+		const fnSignInsert = async () => {
 			var jsonstr = $("form[name='frm']").serialize();
 			jsonstr = decodeURIComponent(jsonstr);
 			var Json_form = JSON.stringify(jsonstr).replace(/\"/gi, '')
@@ -205,31 +198,31 @@ class join extends Component {
 		}
 	};
 
-	emailKeyDown = (e) => {
+	const emailKeyDown = () => {
 		$('#memail1').removeClass('border_validate_err');
 	};
 
-	pwdKeyDown = (e) => {
+	const pwdKeyDown = () => {
 		$('#mpw').removeClass('border_validate_err');
 	};
 
-	pwdCnfKeyDown = (e) => {
+	const pwdCnfKeyDown = () => {
 		$('#confirmPassword').removeClass('border_validate_err');
 	};
 
-	nameKeyDown = (e) => {
+	const nameKeyDown = () => {
 		$('#mname').removeClass('border_validate_err');
 	};
 
-	cellKeyDown = (id) => {
+	const cellKeyDown = (id) => {
 		$("#" + id).removeClass('border_validate_err');
 	}
 
-	handleSubmit = (e) => {
+	/*const handleSubmit = (e) => {
 		e.preventDefault();
-	};
+	};*/
 
-	mustNumber = (id) => {
+	const mustNumber = (id) => {
 		$("#" + id).removeClass('border_validate_err');
 		var pattern1 = /[0-9]/;
 		var str = $('#' + id).val();
@@ -237,8 +230,6 @@ class join extends Component {
 			$('#' + id).val(str.substr(0, str.length - 1));
 		}
 	}
-
-	render() {
 		return (
 
 			<section>
@@ -252,23 +243,23 @@ class join extends Component {
 
 						<form method="post" name="frm">
 							<div style={{ marginBottom: "3%" }} class="form-group has-feedback">
-								<input id="mid" type="text" class="form-control" name="mid" placeholder="아이디" onBlur={this.duplicateIdchk} />
+								<input id="mid" type="text" class="form-control" name="mid" placeholder="아이디" onBlur={duplicateIdchk} />
 							</div>
 
 							<div style={{ marginBottom: "3%" }} class="form-group has-feedback">
-								<input id="mname" type="text" class="form-control" name="mname" placeholder="이름" onKeyDown={this.nameKeyDown} />
+								<input id="mname" type="text" class="form-control" name="mname" placeholder="이름" onKeyDown={nameKeyDown} />
 							</div>
 
 							<div style={{ marginBottom: "3%" }} class="form-group has-feedback">
-								<input id="mpw" type="password" class="form-control" name="mpw" placeholder="비밀번호" onKeyDown={this.pwdKeyDown} />
+								<input id="mpw" type="password" class="form-control" name="mpw" placeholder="비밀번호" onKeyDown={pwdKeyDown} />
 							</div>
 
 							<div style={{ marginBottom: "3%" }} class="form-group has-feedback">
-								<input id="confirmPassword" type="password" class="form-control" name="confirmPassword" placeholder="비밀번호확인" onKeyDown={this.pwdCnfKeyDown} />
+								<input id="confirmPassword" type="password" class="form-control" name="confirmPassword" placeholder="비밀번호확인" onKeyDown={pwdCnfKeyDown} />
 							</div>
 
 							<div style={{ marginBottom: "3%" }} class="form-group has-feedback">
-								<select id="mcell1" name="mcell1" class="form-control" style={{ width: "20%", display: "inline" }} onChange={(e) => this.cellKeyDown("mcell1")}>
+								<select id="mcell1" name="mcell1" class="form-control" style={{ width: "20%", display: "inline" }} onChange={() => cellKeyDown("mcell1")}>
 									<option value="">선택</option>
 									<option value="010">010</option>
 									<option value="011">011</option>
@@ -279,15 +270,15 @@ class join extends Component {
 								</select>
 								<span style={{ margin: "3%", fontSize: "20px" }}>-</span>
 								<input style={{ width: "31.3%", display: "inline" }} id="mcell2" name="mcell2" max="9999"
-									maxlength="4" onChange={(e) => this.mustNumber("mcell2")} class="form-control" />
+									maxlength="4" onChange={() => mustNumber("mcell2")} class="form-control" />
 								<span style={{ margin: "3%", fontSize: "20px" }}>-</span>
 								<input style={{ width: "31.3%", display: "inline" }} id="mcell3" name="mcell3" max="9999"
-									maxlength="4" onChange={(e) => this.mustNumber("mcell3")} class="form-control" />
+									maxlength="4" onChange={() => mustNumber("mcell3")} class="form-control" />
 							</div>
 
 							<div style={{ marginBottom: "3%" }} class="form-group has-feedback">
 								<input style={{ width: "50%", display: "inline" }} id="memail1" type="text" class="form-control"
-									name="memail1" placeholder="이메일" onKeyDown={this.emailKeyDown} />
+									name="memail1" placeholder="이메일" onKeyDown={emailKeyDown} />
 								<span style={{ margin: "3%", fontSize: "20px" }}>@</span>
 								<select style={{ height: "38px", width: "37.3%", display: "inline" }} id="memail2" name="memail2" class="form-control">
 									<option value="">선택하세요</option>
@@ -304,7 +295,7 @@ class join extends Component {
 							<div class="row">
 								<div class="col-xs-12">
 									<div style={{ backgroundColor: "#2eca6a", borderColor: "#2eca6a" }}
-										class="btn btn-primary btn-block btn-flat" onClick={(e) => this.submitClick(e)}>회원가입</div>
+										class="btn btn-primary btn-block btn-flat" onClick={() => submitClick()}>회원가입</div>
 								</div>
 							</div>
 						</form>
@@ -316,7 +307,6 @@ class join extends Component {
 			</section>
 
 		);
-	}
-}
+};
 
-export default join;
+export default Join;

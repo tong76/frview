@@ -3,6 +3,10 @@
                      새로 넣은 style.css
 ======================================================/ */
 
+.align-center{
+  justify-content: center;
+}
+
 
 .board-img {
             display: block !important; 
@@ -310,7 +314,7 @@ h1, h2, h3, h4, h5, h6, figure {
   display: -moz-inline-stack;
   display: inline-block;
   zoom: 1;
-  *display: inline;
+  display: inline;
   -webkit-transition: 0.3s;
   -o-transition: 0.3s;
   transition: 0.3s;
@@ -660,13 +664,13 @@ h1, h2, h3, h4, h5, h6, figure {
   display: -moz-inline-stack;
   display: inline-block;
   zoom: 1;
-  *display: inline;
+  display: inline;
 }
 .gtco-social-icons li a {
   display: -moz-inline-stack;
   display: inline-block;
   zoom: 1;
-  *display: inline;
+  display: inline;
   color: #f54c53;
   padding-left: 10px;
   padding-right: 10px;
@@ -1072,7 +1076,7 @@ form label {
   display: -moz-inline-stack;
   display: inline-block;
   zoom: 1;
-  *display: inline;
+  display: inline;
 }
 #gtco-footer .footer-logo span {
   color: #f54c53;

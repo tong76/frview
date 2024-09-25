@@ -1,17 +1,11 @@
-import { Component } from "react";
+import { useEffect } from "react";
 import $ from 'jquery';
 //js
 
 
-class Footer extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
+const Footer = () => {
 
-        }
-    }
-
-    componentDidMount() {
+    useEffect(() => {
 
         if(
             window.location.pathname.includes("/login")||
@@ -20,10 +14,8 @@ class Footer extends Component {
             $("#footer").hide()
         }
 
-    }
+    }, []);
 
-
-    render() {
         return (
             <div id="footer">
                 <section class="section-footer">
@@ -169,7 +161,6 @@ class Footer extends Component {
                 
             </div>
         );
-    }
-}
+};
 
 export default Footer;

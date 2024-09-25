@@ -1,13 +1,7 @@
-import { Component } from "react";
+import React ,{} from "react";
 
-class mainView extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
+const MainView = () => {
 
-        }
-    }
-    render() {
         return (
             <><div class="intro intro-carousel swiper position-relative">
                 <div class="swiper-wrapper">
@@ -440,6 +434,5 @@ class mainView extends Component {
                 </main></>
 
         );
-    }
 }
-export default mainView;
+export default MainView;

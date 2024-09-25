@@ -1,31 +1,35 @@
 import '../../App.css'
 /* import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; */
-import { Route } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import React, { Component } from 'react';
 import axios from 'axios';
 import cookie from 'react-cookies';
 
 //header
-import HeaderAdmin from './header/HeaderAdmin';
+import HeaderAdmin from './Header/HeaderAdmin';
 
 //footer
-import Footer from './footer/Footer';
+import Footer from './Footer/Footer';
 
 //팝업  스토어
-import popupList from './popup/popupList';
-import popupRead from './popup/popupRead';
+import PopupList from './Popup/PopupList';
+import PopupRead from './Popup/PopupRead';
 
 //main 
-import mainView from './mainView';
+import MainView from './MainView';
 
 //게시판 
-import boardList from './board/boardList';
-import boardPage from './board/boardPage';
-import boardRegist from './board/boardRegist';
+import BoardList from './Board/BoardList';
+import BoardPage from './Board/BoardPage';
+import BoardRegist from './Board/BoardRegist';
 
 //회원기능
-import join from './member/join';
-import login from './member/login';
+import Join from './Member/Join';
+import Login from './Member/Login';
+
+//회원정보
+import MemberInfo from './Member/MemberInfo';
+import ModifyInfo from './Member/ModifyInfo';
 
 //css
 import '../../resources/assets/img/favicon.png';
@@ -46,11 +50,25 @@ class App extends Component {
   }
 
   //인터셉터 기능
-  componentDidMount() {
 
-    if (window.location.pathname === ('/board/boardlist') ||
-      window.location.pathname === ('/member/memberinfo') ||
-      window.location.pathname === ('/board/boardregist')) {
+  componentDidUpdate(prevProps) {
+    if (window.location.pathname !== prevProps.location.pathname) {
+      // URL이 변경되었을 때 실행할 로직
+      this.checkUserPermission();
+    }
+  }
+
+  componentDidMount() {
+    this.checkUserPermission();
+  }
+
+  checkUserPermission = () => {
+
+    if (
+      // window.location.pathname === '/member/memberinfo' ||
+      window.location.pathname === '/board/boardregist' ||
+      window.location.pathname === '/popup/popuplist' ||
+      window.location.pathname === '/board/boardlist') {
 
       axios.post('http://localhost:8080/member/jwtChk', {
         token1: cookie.load('userid'),
@@ -102,14 +120,18 @@ class App extends Component {
             <Route path="/board/boardList" Component={boardList} />
             <Route path="/board/boardPage" Component={boardPage} />
           </Routes> */}
-        <Route exact path='/' component={mainView} />
-        <Route path='/popup/popupList' component={popupList} />
-        <Route path='/popup/popupRead/:sno' component={popupRead} />
-        <Route path='/board/boardList' component={boardList} />
-        <Route path='/board/boardPage/:bno' component={boardPage} />
-        <Route path='/board/boardRegist' component={boardRegist} />
-        <Route path="/login" component={login} />
-        <Route path="/join" component={join} />
+        <Routes>
+        <Route exact path='/' Component={MainView} />
+        <Route path='/popup/popupList' Component={PopupList} />
+        <Route path='/popup/popupRead/:sno' Component={PopupRead} />
+        <Route path='/board/boardList' Component={BoardList} />
+        <Route path='/board/boardPage/:bno' Component={BoardPage} />
+        <Route path='/board/boardRegist' Component={BoardRegist} />
+        <Route path="/login" Component={Login} />
+        <Route path="/join" Component={Join} />
+        <Route path="/member/memberinfo" Component={MemberInfo} />
+        <Route path="/member/modifyinfo" Component={ModifyInfo} />
+        </Routes>
         <Footer />
       </div>
     );

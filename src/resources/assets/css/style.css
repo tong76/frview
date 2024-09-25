@@ -6,9 +6,16 @@
 * License: https://bootstrapmade.com/license/
 */
 
+
+
+.align-center{
+	text-align: center;
+  }
 /* /======================================================
                      버튼 style.css
 ======================================================/ */
+
+
 .green-button {
 	background: #2eca6a;
 	height: 40px;

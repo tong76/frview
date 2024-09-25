@@ -1,19 +1,15 @@
-import React, { Component, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
 import axios from 'axios';
 import cookie from 'react-cookies';
 
-class Header extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            usernm: '',
-            active: ''
-        }
-    }
+const Header = () => {
+    
+    const [username, setUserName] = useState('');
+    const [active, setActive] = useState('');
 
-    componentDidMount() {
+    useEffect(() => {
 
         if (
             window.location.pathname.includes("/login") ||
@@ -39,36 +35,37 @@ class Header extends Component {
 
             $("#notLogin").hide()
             $("#isLogin").show()
+        } else {
+            $("#notLogin").show()
+            $("#isLogin").hide()
         }
-        this.callSessionInfoApi()
-    }
+        callSessionInfoApi()
+    }, []);
 
-    callSessionInfoApi = (e) => {
+    const callSessionInfoApi = () => {
         axios.post('http://localhost:8080/member/jwtChk', {
             token1: cookie.load('userid')
             , token2: cookie.load('username')
         })
             .then(response => {
-                this.setState({ usernm: response.data.token2 })
+                setUserName(response.data.token2);
             })
             .catch(error => {
                 console.log('작업중 오류가 발생하였습니다.');
             });
     }
 
-    handleMenuClick = (path) => {
-        this.setState({ active: path });
+    const handleMenuClick = (path) => {
+        setActive(path);
     };
 
-    logout = async e => {
-        sessionStorage.removeItem("sessionLogin");
+    const logout = () => {
         cookie.remove('userid', { path: '/' });
         cookie.remove('username', { path: '/' });
         cookie.remove('userpassword', { path: '/' });
         window.location.href = "/";
     }
 
-    render() {
         return (
             <nav class="navbar navbar-default navbar-trans navbar-expand-lg fixed-top">
                 <div class="container">
@@ -82,37 +79,32 @@ class Header extends Component {
                     <div class="navbar-collapse collapse justify-content-center" id="navbarDefault">
                         <ul class="navbar-nav">
                             <li class={`nav-item ${window.location.pathname === '/' ? 'active' : ''}`}>
-                                <a id="home" class="nav-link" href="/" onClick={() => this.handleMenuClick('/')}>홈</a>
+                                <a id="home" class="nav-link" href="/" onClick={() => handleMenuClick('/')}>홈</a>
                             </li>
 
                             <li class={`nav-item ${window.location.pathname === '/goodslist' ? 'active' : ''}`}>
-                                <a id="product" class="nav-link" href="/goodslist" onClick={() => this.handleMenuClick('/goodslist')}>상품</a>
+                                <a id="product" class="nav-link" href="/goodslist" onClick={() => handleMenuClick('/goodslist')}>상품</a>
                             </li>
 
                             <li class={`nav-item ${window.location.pathname === '/popup/popuplist' ? 'active' : ''}`}>
-                                <a id="popupstore" class="nav-link" href="/popup/popuplist" onClick={() => this.handleMenuClick('/popup/popuplist')}>팝업스토어</a>
+                                <Link id="popupstore" class="nav-link" to={"/popup/popuplist"} onClick={() => handleMenuClick('/popup/popuplist')}>팝업스토어</Link>
                             </li>
 
                             <li class={`nav-item ${window.location.pathname === '/board/boardlist' ? 'active' : ''}`}>
-                                <a id="board" class="nav-link" href="/board/boardlist" onClick={() => this.handleMenuClick('/boardlist')}>게시판</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <p><span>'{this.state.usernm}'</span>님 반갑습니다.</p>
+                                <a id="board" class="nav-link" href="/board/boardlist" onClick={() => handleMenuClick('/boardlist')}>게시판</a>
                             </li>
 
                             <div id="notLogin">
                                 <li class={`nav-item ${window.location.pathname === '/login' ? 'active' : ''}`}>
-                                    <a class="nav-link " href="/login" onClick={() => this.handleMenuClick('/login')}>로그인</a>
+                                    <a class="nav-link " href="/login" onClick={() => handleMenuClick('/login')}>로그인</a>
                                 </li>
                             </div>
-
 
                             <div id="isLogin">
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">마이페이지</a>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item " href="/" onClick={this.logout}>로그아웃</a>
+                                        <a class="dropdown-item " href="/" onClick={logout}>로그아웃</a>
                                         <a class="dropdown-item " href="#">예약정보</a>
                                         <a class="dropdown-item " href="#">장바구니</a>
                                         <a class="dropdown-item " href="#">주문정보</a>
@@ -126,7 +118,6 @@ class Header extends Component {
                 </div>
             </nav>
         );
-    }
-}
+};
 
 export default Header;
