@@ -4,18 +4,18 @@ import $ from 'jquery';
 import axios from 'axios';
 import cookie from 'react-cookies';
 
-const Header = () => {
-    
+const Header = (props) => {
+
     const [username, setUserName] = useState('');
     const [active, setActive] = useState('');
 
     useEffect(() => {
 
-        if (
-            window.location.pathname.includes("/login") ||
-            window.location.pathname.includes("/join")
-        ) {
-            $(".fixed-top").hide()
+        // 인터셉터 기능
+        checkUserPermission();
+
+        if(props.isVisible){
+            $(".fixed-top").show()
         }
 
         var cookie_userid = cookie.load('userid')
@@ -40,7 +40,8 @@ const Header = () => {
             $("#isLogin").hide()
         }
         callSessionInfoApi()
-    }, []);
+
+    }, [active]);
 
     const callSessionInfoApi = () => {
         axios.post('http://localhost:8080/member/jwtChk', {
@@ -66,8 +67,56 @@ const Header = () => {
         window.location.href = "/";
     }
 
+    const checkUserPermission = () => {
+
+        // 인터셉터
+        if (
+          window.location.pathname === '/member/memberinfo' ||
+          window.location.pathname === '/board/boardregist') {
+    
+          axios.post('http://localhost:8080/member/jwtChk', {
+            token1: cookie.load('userid'),
+            token2: cookie.load('username')
+          })
+            .then(response => {
+              let userid = response.data.token1
+              let password = cookie.load('userpassword')
+              if (password !== undefined) {
+                axios.post('http://localhost:8080/member/jwtLogin', {
+                  mid: userid,
+                  mpw: password
+                })
+                  .then(response => {
+                    if (response.data.jwtLogin[0].mid === undefined) {
+                      noPermission()
+                    } else{
+                        $(".fixed-top").show()
+                    }
+                  })
+                  .catch(error => {
+                    noPermission()
+                  });
+              } else {
+                noPermission()
+              }
+            })
+            .catch(response => noPermission());
+        }
+      }
+    
+      const noPermission = (e) => {
+        remove_cookie();
+        window.location.href = '/login';
+      };
+
+      const remove_cookie = (e) => {
+        cookie.remove('userid', { path: '/' });
+        cookie.remove('username', { path: '/' });
+        cookie.remove('userpassword', { path: '/' });
+      }
+
         return (
-            <nav class="navbar navbar-default navbar-trans navbar-expand-lg fixed-top">
+            <nav class="navbar navbar-default navbar-trans navbar-expand-lg fixed-top" style={{display: "none"}}>
                 <div class="container">
                     <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarDefault" aria-controls="navbarDefault" aria-expanded="false" aria-label="Toggle navigation">
                         <span></span>
@@ -82,12 +131,14 @@ const Header = () => {
                                 <a id="home" class="nav-link" href="/" onClick={() => handleMenuClick('/')}>홈</a>
                             </li>
 
-                            <li class={`nav-item ${window.location.pathname === '/goodslist' ? 'active' : ''}`}>
-                                <a id="product" class="nav-link" href="/goodslist" onClick={() => handleMenuClick('/goodslist')}>상품</a>
+                            <li class={`nav-item ${window.location.pathname === '/goods/goodspopuplist'
+                            || window.location.pathname.includes('/goods/goodslist')
+                            || window.location.pathname.includes('/goods/goodsdetail') ? 'active' : ''}`}>
+                                <a id="product" class="nav-link" href="/goods/goodspopuplist" onClick={() => handleMenuClick('/goodslist')}>상품</a>
                             </li>
 
                             <li class={`nav-item ${window.location.pathname === '/popup/popuplist' ? 'active' : ''}`}>
-                                <Link id="popupstore" class="nav-link" to={"/popup/popuplist"} onClick={() => handleMenuClick('/popup/popuplist')}>팝업스토어</Link>
+                                <a id="popupstore" class="nav-link" href="/popup/popuplist" onClick={() => handleMenuClick('/popup/popuplist')}>팝업스토어</a>
                             </li>
 
                             <li class={`nav-item ${window.location.pathname === '/board/boardlist' ? 'active' : ''}`}>
@@ -100,7 +151,8 @@ const Header = () => {
                                 </li>
                             </div>
 
-                            <div id="isLogin">
+                            <div id="isLogin" style={{display: "none"}}>
+
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">마이페이지</a>
                                     <div class="dropdown-menu">

@@ -64,30 +64,30 @@ const Login = () => {
     };
     return (
         <>
-            <div className="login-box">
-                <div className="login-logo">
-                    <a href="/" style={{ fontWeight: "600" }}><b>Pop<span className="color-b">Pin</span></b></a>
+            <div class="login-box">
+                <div class="login-logo">
+                    <a href="/" style={{ fontWeight: "600" }}><b>Pop<span class="color-b">Pin</span></b></a>
                 </div>
-                <div className="login-box-body">
-                    <p className="login-box-msg"><b>로그인하여 시작하세요.</b></p>
+                <div class="login-box-body">
+                    <p class="login-box-msg"><b>로그인하여 시작하세요.</b></p>
 
-                    <div style={{ marginBottom: "3%" }} className="form-group has-feedback">
-                        <input id="userid" type="text" name="mid" className="form-control"
+                    <div style={{ marginBottom: "3%" }} class="form-group has-feedback">
+                        <input id="userid" type="text" name="mid" class="form-control"
                             placeholder="ID" onKeyDown={enterKey} />
                     </div>
-                    <div style={{ marginBottom: "3%" }} className="form-group has-feedback">
-                        <input id="password" type="password" name="mpw" className="form-control"
+                    <div style={{ marginBottom: "3%" }} class="form-group has-feedback">
+                        <input id="password" type="password" name="mpw" class="form-control"
                             placeholder="PASSWORD" onKeyDown={enterKey} />
                     </div>
 
-                    <div className="row align-center">
-                        <div className="col-xs-12">
-                            <div id="logchkBtn" style={{ backgroundColor: "#2eca6a", borderColor: "#2eca6a" }} className="btn btn-primary btn-block btn-flat" onClick={() => submitClick()}>로그인</div>
+                    <div class="row" style={{ textAlign: "center"}}>
+                        <div class="col-xs-12">
+                            <div id="logchkBtn" style={{ backgroundColor: "#2eca6a", borderColor: "#2eca6a" }} class="btn btn-primary btn-block btn-flat" onClick={() => submitClick()}>로그인</div>
                         </div>
                     </div>
 
-                    <p className="ptag">처음 이용하시면 회원가입을 해주세요.</p>
-                    <Link to={"/join"} className="atag" style={{ textDecoration: "none" }}>회원가입</Link>
+                    <p class="ptag">처음 이용하시면 회원가입을 해주세요.</p>
+                    <Link to={"/join"} class="atag" style={{ textDecoration: "none" }}>회원가입</Link>
 
                 </div>
 

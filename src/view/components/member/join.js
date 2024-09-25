@@ -1,4 +1,5 @@
-import React, {} from 'react';
+
+import React, { } from 'react';
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
 import axios from "axios";
@@ -230,83 +231,84 @@ const Join = () => {
 			$('#' + id).val(str.substr(0, str.length - 1));
 		}
 	}
-		return (
 
-			<section>
-				<div class="register-box">
-					<div class="register-logo">
-						<a href="/" style={{ fontWeight: "600" }}>Pop<span class="color-b">Pin</span></a>
-					</div>
+	return (
 
-					<div class="register-box-body">
-						<p class="login-box-msg"><b>회원가입하여 시작하세요.</b></p>
-
-						<form method="post" name="frm">
-							<div style={{ marginBottom: "3%" }} class="form-group has-feedback">
-								<input id="mid" type="text" class="form-control" name="mid" placeholder="아이디" onBlur={duplicateIdchk} />
-							</div>
-
-							<div style={{ marginBottom: "3%" }} class="form-group has-feedback">
-								<input id="mname" type="text" class="form-control" name="mname" placeholder="이름" onKeyDown={nameKeyDown} />
-							</div>
-
-							<div style={{ marginBottom: "3%" }} class="form-group has-feedback">
-								<input id="mpw" type="password" class="form-control" name="mpw" placeholder="비밀번호" onKeyDown={pwdKeyDown} />
-							</div>
-
-							<div style={{ marginBottom: "3%" }} class="form-group has-feedback">
-								<input id="confirmPassword" type="password" class="form-control" name="confirmPassword" placeholder="비밀번호확인" onKeyDown={pwdCnfKeyDown} />
-							</div>
-
-							<div style={{ marginBottom: "3%" }} class="form-group has-feedback">
-								<select id="mcell1" name="mcell1" class="form-control" style={{ width: "20%", display: "inline" }} onChange={() => cellKeyDown("mcell1")}>
-									<option value="">선택</option>
-									<option value="010">010</option>
-									<option value="011">011</option>
-									<option value="016">016</option>
-									<option value="017">017</option>
-									<option value="018">018</option>
-									<option value="019">019</option>
-								</select>
-								<span style={{ margin: "3%", fontSize: "20px" }}>-</span>
-								<input style={{ width: "31.3%", display: "inline" }} id="mcell2" name="mcell2" max="9999"
-									maxlength="4" onChange={() => mustNumber("mcell2")} class="form-control" />
-								<span style={{ margin: "3%", fontSize: "20px" }}>-</span>
-								<input style={{ width: "31.3%", display: "inline" }} id="mcell3" name="mcell3" max="9999"
-									maxlength="4" onChange={() => mustNumber("mcell3")} class="form-control" />
-							</div>
-
-							<div style={{ marginBottom: "3%" }} class="form-group has-feedback">
-								<input style={{ width: "50%", display: "inline" }} id="memail1" type="text" class="form-control"
-									name="memail1" placeholder="이메일" onKeyDown={emailKeyDown} />
-								<span style={{ margin: "3%", fontSize: "20px" }}>@</span>
-								<select style={{ height: "38px", width: "37.3%", display: "inline" }} id="memail2" name="memail2" class="form-control">
-									<option value="">선택하세요</option>
-									<option value='naver.com'>naver.com</option>
-									<option value='hanmail.net'>hanmail.net</option>
-									<option value='nate.com'>nate.com</option>
-									<option value='hotmail.com'>hotmail.com</option>
-									<option value='gmail.com'>gmail.com</option>
-									<option value='yahoo.co.kr'>yahoo.co.kr</option>
-									<option value='yahoo.com'>yahoo.com</option>
-								</select>
-							</div>
-
-							<div class="row">
-								<div class="col-xs-12">
-									<div style={{ backgroundColor: "#2eca6a", borderColor: "#2eca6a" }}
-										class="btn btn-primary btn-block btn-flat" onClick={() => submitClick()}>회원가입</div>
-								</div>
-							</div>
-						</form>
-
-						<Link to={"/login"} class="atag">이미 아이디가 존재해요.</Link>
-					</div>
+		<section>
+			<div class="register-box">
+				<div class="register-logo">
+					<a href="/" style={{ fontWeight: "600" }}>Pop<span class="color-b">Pin</span></a>
 
 				</div>
-			</section>
+				<div class="register-box-body">
+					<p class="login-box-msg"><b>회원가입하여 시작하세요.</b></p>
 
-		);
+					<form method="post" name="frm">
+						<div style={{ marginBottom: "3%" }} class="form-group has-feedback">
+							<input id="mid" type="text" class="form-control" name="mid" placeholder="아이디" onBlur={duplicateIdchk} />
+						</div>
+
+						<div style={{ marginBottom: "3%" }} class="form-group has-feedback">
+							<input id="mname" type="text" class="form-control" name="mname" placeholder="이름" onKeyDown={nameKeyDown} />
+						</div>
+
+						<div style={{ marginBottom: "3%" }} class="form-group has-feedback">
+							<input id="mpw" type="password" class="form-control" name="mpw" placeholder="비밀번호" onKeyDown={pwdKeyDown} />
+						</div>
+
+						<div style={{ marginBottom: "3%" }} class="form-group has-feedback">
+							<input id="confirmPassword" type="password" class="form-control" name="confirmPassword" placeholder="비밀번호확인" onKeyDown={pwdCnfKeyDown} />
+						</div>
+
+						<div style={{ marginBottom: "3%" }} class="form-group has-feedback">
+							<select id="mcell1" name="mcell1" class="form-control" style={{ width: "20%", display: "inline" }} onChange={() => cellKeyDown("mcell1")}>
+								<option value="">선택</option>
+								<option value="010">010</option>
+								<option value="011">011</option>
+								<option value="016">016</option>
+								<option value="017">017</option>
+								<option value="018">018</option>
+								<option value="019">019</option>
+							</select>
+							<span style={{ margin: "3%", fontSize: "20px" }}>-</span>
+							<input style={{ width: "31.3%", display: "inline" }} id="mcell2" name="mcell2" max="9999"
+								maxlength="4" onChange={() => mustNumber("mcell2")} class="form-control" />
+							<span style={{ margin: "3%", fontSize: "20px" }}>-</span>
+							<input style={{ width: "31.3%", display: "inline" }} id="mcell3" name="mcell3" max="9999"
+								maxlength="4" onChange={() => mustNumber("mcell3")} class="form-control" />
+						</div>
+
+						<div style={{ marginBottom: "3%" }} class="form-group has-feedback">
+							<input style={{ width: "50%", display: "inline" }} id="memail1" type="text" class="form-control"
+								name="memail1" placeholder="이메일" onKeyDown={emailKeyDown} />
+							<span style={{ margin: "3%", fontSize: "20px" }}>@</span>
+							<select style={{ height: "38px", width: "37.3%", display: "inline" }} id="memail2" name="memail2" class="form-control">
+								<option value="">선택하세요</option>
+								<option value='naver.com'>naver.com</option>
+								<option value='hanmail.net'>hanmail.net</option>
+								<option value='nate.com'>nate.com</option>
+								<option value='hotmail.com'>hotmail.com</option>
+								<option value='gmail.com'>gmail.com</option>
+								<option value='yahoo.co.kr'>yahoo.co.kr</option>
+								<option value='yahoo.com'>yahoo.com</option>
+							</select>
+						</div>
+
+						<div class="row" style={{ textAlign: "center"}}>
+							<div class="col-xs-12">
+								<div style={{ backgroundColor: "#2eca6a", borderColor: "#2eca6a" }}
+									class="btn btn-primary btn-block btn-flat" onClick={() => submitClick()}>회원가입</div>
+							</div>
+						</div>
+					</form>
+
+					<Link to={"/login"} class="atag">이미 아이디가 존재해요.</Link>
+				</div>
+
+			</div>
+		</section>
+
+	);
 };
 
 export default Join;

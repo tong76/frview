@@ -1,24 +1,73 @@
 import { useEffect } from "react";
 import $ from 'jquery';
+import axios from 'axios';
+import cookie from 'react-cookies';
 //js
 
 
-const Footer = () => {
+const Footer = (props) => {
 
     useEffect(() => {
 
-        if(
-            window.location.pathname.includes("/login")||
-            window.location.pathname.includes("/join")
-        ){
-            $("#footer").hide()
+        checkUserPermission();
+
+        if (props.isVisible) {
+            $("#footer").show()
         }
 
     }, []);
 
-        return (
-            <div id="footer">
-                <section class="section-footer">
+    const checkUserPermission = () => {
+
+        if (
+            window.location.pathname === '/member/memberinfo' ||
+            window.location.pathname === '/board/boardregist' ||
+            window.location.pathname === '/board/boardRegist') {
+
+            axios.post('http://localhost:8080/member/jwtChk', {
+                token1: cookie.load('userid'),
+                token2: cookie.load('username')
+            })
+                .then(response => {
+                    let userid = response.data.token1
+                    let password = cookie.load('userpassword')
+                    if (password !== undefined) {
+                        axios.post('http://localhost:8080/member/jwtLogin', {
+                            mid: userid,
+                            mpw: password
+                        })
+                            .then(response => {
+                                if (response.data.jwtLogin[0].mid === undefined) {
+                                    noPermission()
+                                } else {
+                                    $("#footer").show()
+                                }
+                            })
+                            .catch(error => {
+                                noPermission()
+                            });
+                    } else {
+                        noPermission()
+                    }
+                })
+                .catch(response => noPermission());
+        }
+    }
+
+    const noPermission = (e) => {
+        remove_cookie();
+        window.location.href = '/login';
+    };
+
+    const remove_cookie = (e) => {
+        cookie.remove('userid', { path: '/' });
+        cookie.remove('username', { path: '/' });
+        cookie.remove('userpassword', { path: '/' });
+    }
+
+    return (
+        <div id="footer" style={{ display: "none" , textAlign:"center"}}>
+            <section class="section-footer">
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-12 col-md-4">
@@ -98,69 +147,69 @@ const Footer = () => {
                     </div>
                 </div>
             </section><footer>
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <nav class="nav-footer">
-                                    <ul class="list-inline">
-                                        <li class="list-inline-item">
-                                            <a href="#">홈</a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="#">상품</a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="#">팝업스토어</a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="#">게시판</a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="#">로그인</a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                                <div class="socials-a">
-                                    <ul class="list-inline">
-                                        <li class="list-inline-item">
-                                            <a href="#">
-                                                <i class="bi bi-facebook" aria-hidden="true"></i>
-                                            </a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="#">
-                                                <i class="bi bi-twitter" aria-hidden="true"></i>
-                                            </a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="#">
-                                                <i class="bi bi-instagram" aria-hidden="true"></i>
-                                            </a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="#">
-                                                <i class="bi bi-linkedin" aria-hidden="true"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="copyright-footer">
-                                    <p class="copyright color-text-a">
-                                        &copy; Copyright
-                                        <span class="color-a">PopPin</span> All Rights Reserved.
-                                    </p>
-                                </div>
-                                <div class="credits">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <nav class="nav-footer">
+                                <ul class="list-inline">
+                                    <li class="list-inline-item">
+                                        <a href="#">홈</a>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <a href="#">상품</a>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <a href="#">팝업스토어</a>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <a href="#">게시판</a>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <a href="#">로그인</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                            <div class="socials-a">
+                                <ul class="list-inline">
+                                    <li class="list-inline-item">
+                                        <a href="#">
+                                            <i class="bi bi-facebook" aria-hidden="true"></i>
+                                        </a>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <a href="#">
+                                            <i class="bi bi-twitter" aria-hidden="true"></i>
+                                        </a>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <a href="#">
+                                            <i class="bi bi-instagram" aria-hidden="true"></i>
+                                        </a>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <a href="#">
+                                            <i class="bi bi-linkedin" aria-hidden="true"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="copyright-footer">
+                                <p class="copyright color-text-a">
+                                    &copy; Copyright
+                                    <span class="color-a">PopPin</span> All Rights Reserved.
+                                </p>
+                            </div>
+                            <div class="credits">
 
-                                    Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-                                </div>
+                                Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
                             </div>
                         </div>
                     </div>
-                </footer>
-                
-            </div>
-        );
+                </div>
+            </footer>
+
+        </div>
+    );
 };
 
 export default Footer;

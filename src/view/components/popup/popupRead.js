@@ -1,182 +1,162 @@
-import { Component } from "react";
-import axios from "axios";
-import {Link} from 'react-router-dom';
-import $ from 'jquery';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
+const PopupRead = () => {
+    const { sno } = useParams(); // useParams를 통해 URL 파라미터를 가져옵니다.
+    
+    const [popupData, setPopupData] = useState({
+        sname: '',
+        scon: '',
+        splc: '',
+        simg: '',
+        smedia: '',
+        smap: ''
+    });
 
-class popupRead extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            get_sno: props.match.params.sno,
-
+    useEffect(() => {
+        const fetchPopupData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/popup/popupRead/${sno}`);
+                const data = response.data.popupRead[0];
+                setPopupData({
+                    sname: data.sname,
+                    scon: data.scon,
+                    splc: data.splc,
+                    simg: data.simg,
+                    smedia: data.smedia,
+                    smap: data.smap
+                });
+            } catch (error) {
+                console.error(error);
+                alert('axios 에러');
+            }
         };
-    }
+        fetchPopupData();
+    }, [sno]); // sno가 변경될 때마다 이 useEffect가 호출됩니다.
 
-    componentDidMount(){
-       this.callPopupInfoApi() 
-    }
+    return (
+        <main id="main">
+            <section className="intro-single">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-md-12 col-lg-8">
+                            <div className="title-single-box">
+                                <h1 className="title-single">{popupData.sname}</h1>
+                            </div>
+                        </div>
+                        <div className="col-md-12 col-lg-4">
+                            <nav aria-label="breadcrumb" className="breadcrumb-box d-flex justify-content-lg-end">
+                                <ol className="breadcrumb">
+                                    <li className="breadcrumb-item"><a href="index.html">홈</a></li>
+                                    <li className="breadcrumb-item"><a href="property-grid.html">팝업스토어</a></li>
+                                    <li className="breadcrumb-item active" aria-current="page">
+                                        {popupData.sname}
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-    callPopupInfoApi = async () => {
-        try{
-            await axios.get('http://localhost:8080/popup/popupRead/'+this.state.get_sno,{
-            }).then(response => {
-                var data = response.data.popupRead[0]
-                //var data = response.data.popupRead[0]
-                $('#popup_name').text(data.sname)
-                $('#popup_con').text(data.scon)
-                $('#popup_plc').text(data.splc)
-                $('#popup_img').attr('src',data.simg)
-                $('#popup_video').attr('src',data.smedia)
-                $('#popup_map').attr('src',data.smap)
-                
-            });
-            
-        } catch(error){
-            console.error(error);
-            alert('axios 에러');
-        }
-        
-    }
-
-
-    render() {
-        return (
-            <main id="main">
-                <section class="intro-single">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-12 col-lg-8">
-                                <div class="title-single-box">
-                                    <h1 class="title-single" id = "popup_name"></h1>
+            <section className="property-single nav-arrow-b">
+                <div className="container">
+                    <div className="row justify-content-center">
+                        <div className="col-lg-8">
+                            <div id="property-single-carousel" className="swiper">
+                                <div className="swiper-wrapper">
+                                    <div className="carousel-item-b swiper-slide">
+                                        <img src={popupData.simg} alt="Popup" />
+                                    </div>
+                                    <div className="carousel-item-b swiper-slide">
+                                        <img src="/resources/assets/img/junji-4.jpg" alt="Placeholder" />
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-12 col-lg-4">
-                                <nav aria-label="breadcrumb"
-                                    class="breadcrumb-box d-flex justify-content-lg-end">
-                                    <ol class="breadcrumb">
-                                        <li class="breadcrumb-item"><a href="index.html">홈</a></li>
-                                        <li class="breadcrumb-item"><a href="property-grid.html">팝업스토어</a>
-                                        </li>
-                                        <li class="breadcrumb-item active" aria-current="page" id = "popup_name">
-                                            </li>
-                                    </ol>
-                                </nav>
-                            </div>
+                            <div className="property-single-carousel-pagination carousel-pagination"></div>
                         </div>
                     </div>
 
-                </section>
-
-                <section class="property-single nav-arrow-b">
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-8">
-                                <div id="property-single-carousel" class="swiper">
-                                    <div class="swiper-wrapper">
-                                        <div class="carousel-item-b swiper-slide">
-                                            <img src="" alt="" id="popup_img"/>
+                    <div className="row">
+                        <div className="col-sm-12">
+                            <div className="row justify-content-between">
+                                <div className="col-md-5 col-lg-4">
+                                    <div className="property-price d-flex justify-content-center foo">
+                                        <div className="card-header-c d-flex">
+                                            <div className="card-title-c align-self-center"></div>
                                         </div>
-                                        <div class="carousel-item-b swiper-slide">
-                                            <img src="/resources/assets/img/junji-4.jpg" alt="" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div
-                                    class="property-single-carousel-pagination carousel-pagination"></div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-sm-12">
-
-                                <div class="row justify-content-between">
-                                    <div class="col-md-5 col-lg-4">
-                                        <div class="property-price d-flex justify-content-center foo">
-                                            <div class="card-header-c d-flex">
-                                                <div class="card-title-c align-self-center"></div>
-                                            </div>
-                                            <div class="property-summary">
-                                                <div class="row">
-                                                    <div class="col-sm-12">
-                                                        <div class="title-box-d section-t4">
-                                                            <h3 class="title-d">운영시간</h3>
-                                                            <p><strong id = "popup_plc">팝업스토어 장소</strong></p>
-                                                        </div>
+                                        <div className="property-summary">
+                                            <div className="row">
+                                                <div className="col-sm-12">
+                                                    <div className="title-box-d section-t4">
+                                                        <h3 className="title-d">운영시간</h3>
+                                                        <p><strong>{popupData.splc}</strong></p>
                                                     </div>
                                                 </div>
-                                                <div class="summary-list">
-                                                    <ul class="list">
-                                                        <li class="d-flex justify-content-between"><strong>월:</strong>
-                                                            <span>11:00 ~ 19:00</span></li>
-                                                        <li class="d-flex justify-content-between"><strong>화:</strong>
-                                                            <span>11:00 ~ 19:00</span></li>
-                                                        <li class="d-flex justify-content-between"><strong>수:</strong>
-                                                            <span>11:00 ~ 19:00</span></li>
-                                                        <li class="d-flex justify-content-between"><strong>목:</strong>
-                                                            <span>11:00 ~ 19:00</span></li>
-                                                        <li class="d-flex justify-content-between"><strong>금:</strong>
-                                                            <span>11:00 ~ 21:00</span></li>
-                                                        <li class="d-flex justify-content-between"><strong>토:</strong>
-                                                            <span>11:00 ~ 21:00</span></li>
-                                                        <li class="d-flex justify-content-between"><strong>일:</strong>
-                                                            <span>11:00 ~ 19:00</span></li>
-                                                    </ul>
-                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-7 col-lg-7 section-md-t3">
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <div class="title-box-d">
-                                                    <h3 class="title-d">상세내용</h3>
-                                                </div>
+                                            <div className="summary-list">
+                                                <ul className="list">
+                                                    <li className="d-flex justify-content-between"><strong>월:</strong><span>11:00 ~ 19:00</span></li>
+                                                    <li className="d-flex justify-content-between"><strong>화:</strong><span>11:00 ~ 19:00</span></li>
+                                                    <li className="d-flex justify-content-between"><strong>수:</strong><span>11:00 ~ 19:00</span></li>
+                                                    <li className="d-flex justify-content-between"><strong>목:</strong><span>11:00 ~ 19:00</span></li>
+                                                    <li className="d-flex justify-content-between"><strong>금:</strong><span>11:00 ~ 21:00</span></li>
+                                                    <li className="d-flex justify-content-between"><strong>토:</strong><span>11:00 ~ 21:00</span></li>
+                                                    <li className="d-flex justify-content-between"><strong>일:</strong><span>11:00 ~ 19:00</span></li>
+                                                </ul>
                                             </div>
-                                        </div>
-                                        <div class="property-description">
-                                            <p class="description color-text-a" id="popup_con"><strong>팝업스토어 설명</strong></p>
                                         </div>
                                     </div>
                                 </div>
+                                <div className="col-md-7 col-lg-7 section-md-t3">
+                                    <div className="row">
+                                        <div className="col-sm-12">
+                                            <div className="title-box-d">
+                                                <h3 className="title-d">상세내용</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="property-description">
+                                        <p className="description color-text-a"><strong>{popupData.scon}</strong></p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-10 offset-md-1">
-                                <ul class="nav nav-pills-a nav-pills mb-3 section-t3"
-                                    id="pills-tab" role="tablist">
-                                    <li class="nav-item"><a class="nav-link active"
-                                        id="pills-video-tab" data-bs-toggle="pill" href="#pills-video"
-                                        role="tab" aria-controls="pills-video" aria-selected="true">비디오</a>
+                        </div>
+                        <div className="col-md-10 offset-md-1">
+                            <ul className="nav nav-pills-a nav-pills mb-3 section-t3" id="pills-tab" role="tablist">
+                                <li className="nav-item">
+                                    <a className="nav-link active" id="pills-video-tab" data-bs-toggle="pill" href="#pills-video" role="tab" aria-controls="pills-video" aria-selected="true">비디오</a>
+                                </li>
+                            </ul>
+                            <div className="tab-content" id="pills-tabContent">
+                                <iframe
+                                    src={popupData.smedia}
+                                    width="100%" height="460" frameBorder="0" webkitAllowFullScreen
+                                    mozAllowFullScreen allowFullScreen
+                                ></iframe>
+                            </div>
+                            <div className="col-md-10 offset-md-1">
+                                <ul className="nav nav-pills-a nav-pills mb-3 section-t3" id="pills-tab" role="tablist">
+                                    <li className="nav-item">
+                                        <a className="nav-link active" id="pills-map-tab" data-bs-toggle="pill" href="#pills-map" role="tab" aria-controls="pills-map" aria-selected="true">지도</a>
                                     </li>
                                 </ul>
-                                <div class="tab-content" id="pills-tabContent">
+                                <div className="tab-content" id="pills-tabContent">
                                     <iframe
-                                        src="https://www.youtube.com/embed/P24x81R2xfA?si=hKLoWeiiSNEpedeU"
-                                        width="100%" height="460" frameborder="0" webkitallowfullscreen
-                                        mozallowfullscreen allowfullscreen id = "popup_video"></iframe>
-                                </div>
-                                <div class="col-md-10 offset-md-1">
-                                    <ul class="nav nav-pills-a nav-pills mb-3 section-t3"
-                                        id="pills-tab" role="tablist">
-                                        <li class="nav-item"><a class="nav-link active"
-                                            id="pills-video-tab" data-bs-toggle="pill" href="#pills-video"
-                                            role="tab" aria-controls="pills-video" aria-selected="true">지도</a>
-                                        </li>
-                                    </ul>
-                                    <div class="tab-content" id="pills-tabContent">
-                                        <iframe
-                                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3164.237538564367!2d126.92585117568048!3d37.52589747204912!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357b45c3d89d7801%3A0x7883571cabf15b8b!2z642U7ZiE64yAIOyEnOyauA!5e0!3m2!1sko!2skr!4v1721704219173!5m2!1sko!2skr"
-                                            width="100%" height="450" style={{border: "0"}} allowfullscreen=""
-                                            loading="lazy" referrerpolicy="no-referrer-when-downgrade" id = "popup_map"></iframe>
-                                    </div>
+                                        src={popupData.smap}
+                                        width="100%" height="450" style={{border: "0"}} allowFullScreen=""
+                                        loading="lazy" referrerPolicy="no-referrer-when-downgrade"
+                                    ></iframe>
                                 </div>
                             </div>
-
                         </div>
                     </div>
-                </section>
-            </main>
-        );
-    }
-}
-export default popupRead;
+                </div>
+            </section>
+        </main>
+    );
+};
+
+export default PopupRead;
    
