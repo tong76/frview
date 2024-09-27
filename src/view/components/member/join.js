@@ -1,4 +1,3 @@
-
 import React, { } from 'react';
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
@@ -156,7 +155,7 @@ const Join = () => {
 			})
 				.then(response => {
 					try {
-						const dupli_count = response.data.emailCheck[0].count;
+						const dupli_count = response.data.eamilCheck[0].count;
 						if (dupli_count !== 0) {
 							$('#memail1').addClass('border_validate_err');
 							$('#memail2').addClass('border_validate_err');
@@ -167,7 +166,7 @@ const Join = () => {
 							fnSignInsert();
 						}
 					} catch (error) {
-						alert('이메일 중복체크 작업 중 오류가 발생하였습니다.')
+						alert('작업중 오류가 발생하였습니다.')
 					}
 				})
 				.catch(response => { return false; });
@@ -243,12 +242,13 @@ const Join = () => {
 	};
 
 	return (
+
 		<section>
 			<div class="register-box">
 				<div class="register-logo">
 					<a href="/" style={{ fontWeight: "600" }}>Pop<span class="color-b">Pin</span></a>
-
 				</div>
+
 				<div class="register-box-body">
 					<p class="login-box-msg"><b>회원가입하여 시작하세요.</b></p>
 
