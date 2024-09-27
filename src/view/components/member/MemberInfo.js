@@ -1,46 +1,70 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import NavigateButton from '../NavigateButton';
 import cookie from 'react-cookies';
-import { param } from 'jquery';
+import { Link } from 'react-router-dom';
+
 
 export default function MemberInfo() {
 
-  const [member, setmember] = useState(null); // 전체 회원 목록 저장
-  const [loading, setLoading] = useState(true); // 로딩 상태 관리
-  const [error, setError] = useState(null); // 에러 상태 관리
-  
-  useEffect(() => {
-    const userid = cookie.load('userid');
+  const [mno, setMno] = useState('');
+  const [currentMno, setCurrentMno] = useState('');
+  const [member, setMember] = useState(''); // 전체 회원 목록 저장
 
-    if (!userid) {
-      setError(new Error("로그인 정보가 없습니다."));
-      setLoading(false);
-      alert("로그인이 필요합니다.");
-      return;
+
+
+  const callMemberInfoApi = () => {
+    if (currentMno !== mno || currentMno === "") {
+      axios.post("http://localhost:8080/member/jwtChk", {
+        token1: cookie.load('userid'),
+        token2: cookie.load('username')
+      }).then(response => {
+        axios.post("http://localhost:8080/member/jwtLogin", {
+          mid: response.data.token1,
+          mpw: cookie.load("userpassword")
+        }).then(response => {
+          try {
+
+
+            const jwtLoginData = response.data.jwtLogin;
+            console.log(jwtLoginData);
+
+            if (jwtLoginData && jwtLoginData.length > 0) {
+              setMember(jwtLoginData[0]);
+
+              const mnoFromResponse = response.data.jwtLogin[0].mno;
+              setMno(mnoFromResponse);
+              setCurrentMno(mnoFromResponse);
+            } else {
+
+              console.log("회원정보가 없습니다.");
+            }
+
+
+          } catch (error) {
+            console.log("회원정보 응답 중 오류가 발생하였습니다.");
+          }
+        }).catch(error => { console.log("회원정보 요청 중 오류가 발생하였습니다.") });
+      }).catch(error => { console.log("JWT 검증 중 오류가 발생하였습니다.") });
     }
 
+  }
 
-    axios.get('http://localhost:8080/api/memberinfo',{
-      
-      params: {userid}
 
-      })     
-      .then(response => {
-        setmember(response.data); // 특정 회원의 데이터를 상태에 저장
-        setLoading(false); // 로딩 상태 해제
-      })
-      .catch(error => {
-        setError(error); // 에러 상태 저장
-        setLoading(false); // 로딩 상태 해제
-      });
-  }, []);
+  useEffect(() => {
+    callMemberInfoApi();
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
-  if (!member) return <p>회원 정보를 찾을 수 없습니다.</p>;
-  
-  
+
+  }, [currentMno]);
+
+  //날짜 가공
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const year = String(date.getFullYear()).slice(2); // 연도를 두 자리로 자름
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // 월을 두 자리로
+    const day = String(date.getDate()).padStart(2, '0'); // 일을 두 자리로
+    return `${year}-${month}-${day}`;
+  }
+
 
 
   return (
@@ -77,32 +101,32 @@ export default function MemberInfo() {
               <div className="row-Flex">
 
                 <ul className="subindex_row">
-                  <li className="row_item" id="mid">
+                  <li className="row_item">
                     <div className="item_text">
                       <span className="item_text">아이디</span>
                     </div>
                   </li>
-                  <li className="row_item" id="mpw">
+                  <li className="row_item">
                     <div className="item_text">
                       <span className="item_text">비밀번호</span>
                     </div>
                   </li>
-                  <li className="row_item" id="mname">
+                  <li className="row_item">
                     <div className="item_text">
                       <span className="item_text">이름</span>
                     </div>
                   </li>
-                  <li className="row_item" id="mcell">
+                  <li className="row_item">
                     <div className="item_text">
                       <span className="item_text">휴대폰번호</span>
                     </div>
                   </li>
-                  <li className="row_item" id="memail">
+                  <li className="row_item">
                     <div className="item_text">
                       <span className="item_text">이메일</span>
                     </div>
                   </li>
-                  <li className="row_item" id="mdate">
+                  <li className="row_item">
                     <div className="item_text">
                       <span className="item_text">가입일</span>
                     </div>
@@ -144,7 +168,7 @@ export default function MemberInfo() {
                     </li>
                     <li className="row_item">
                       <div className="item_text">
-                        <span className="item_text">{member.mdate}</span>
+                        <span className="item_text"> {member.mdate ? formatDate(member.mdate) : '날짜 정보 없음'} </span>
                       </div>
                     </li>
                   </ul>
@@ -155,10 +179,11 @@ export default function MemberInfo() {
             <div className="info-footer">
               <div className="row-Flex">
                 <div className="modifyPageBtn">
-                  <NavigateButton className="green-button btn button-text" to="/member/modifyinfo" state={{member}} label= "회원정보수정" />                  
+
+                  <Link className="green-button btn button-text" to="/member/modifyinfo">회원정보수정</Link>
                 </div>
                 <div className="removeInfoBtn">
-                <NavigateButton className="green-button btn button-text" to= "/member/removeinfo" label= "탈퇴"/>
+                  <Link className="green-button btn button-text" to="/member/deleteinfo">회원탈퇴</Link>
                 </div>
               </div>
             </div>

@@ -2,8 +2,7 @@ import '../../App.css'
 /* import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; */
 import { Route, Routes } from 'react-router-dom';
 import React, { Component } from 'react';
-import axios from 'axios';
-import cookie from 'react-cookies';
+
 
 //header
 import HeaderAdmin from './Header/HeaderAdmin';
@@ -29,10 +28,15 @@ import BoardRead from './Board/BoardRead';
 //회원기능
 import Join from './Member/Join';
 import Login from './Member/Login';
+import FindPassword from './Member/FindPassword';
+import EmailAuth from './Member/EmailAuth';
+import UpdatePassword from './Member/UpdatePassword';
 
 //회원정보
 import MemberInfo from './Member/MemberInfo';
 import ModifyInfo from './Member/ModifyInfo';
+import DeleteInfo from './Member/DeleteInfo';
+
 
 //굿즈
 import GoodsPopupList from './Goods/GoodsPopupList';
@@ -67,7 +71,7 @@ class App extends Component {
       window.location.pathname.includes("/goods/goodslist") ||
       window.location.pathname.includes("/goods/goodsdetail") ||
       window.location.pathname === "/popup/popuplist" ||
-      window.location.pathname === "/board/boardlist"
+      window.location.pathname === "/board/boardlist" 
     ) {
       return {
         isVisible: true
@@ -92,6 +96,12 @@ class App extends Component {
           <Route path='/goods/goodsdetail/:sno/:pno' Component={GoodsDetail} />
           <Route path="/login" Component={Login} />
           <Route path="/join" Component={Join} />
+          <Route path="/member/memberinfo" Component={MemberInfo} />
+          <Route path="/member/modifyinfo" Component={ModifyInfo} />
+          <Route path="/member/deleteinfo" Component={DeleteInfo} />
+          <Route path="/member/findpassword" Component={FindPassword} />
+          <Route path="/member/emailauth" Component={EmailAuth} />
+          <Route path="/member/updatepassword" Component={UpdatePassword} />
         </Routes>
         <Footer isVisible={this.state.isVisible} />
 
