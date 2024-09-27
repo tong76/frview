@@ -142,7 +142,8 @@ const Header = (props) => {
 
                             <li class={`nav-item ${window.location.pathname === '/board/boardlist'
                             || window.location.pathname.includes('/board/boardmodify')
-                            || window.location.pathname.includes('/board/boardread') ? 'active' : ''}`}>
+                            || window.location.pathname.includes('/board/boardread')
+                            || window.location.pathname.includes('/board/boardregist') ? 'active' : ''}`}>
                                 <a id="board" class="nav-link" href="/board/boardlist" onClick={() => handleMenuClick('/boardlist')}>게시판</a>
                             </li>
 
