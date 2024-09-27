@@ -101,7 +101,6 @@ const Login = () => {
                     <Link to={"/join"} class="atag" style={{ textDecoration: "none" }}>회원가입</Link>
                     <Link to={"/member/findpassword"} class="atag" style={{ textDecoration: "none" }}>비밀번호찾기</Link>
                 </div>
-
             </div >
         </>
     );
