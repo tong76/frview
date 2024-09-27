@@ -1,4 +1,3 @@
-
 import React, { } from "react";
 import slide_1 from "../../resources/assets/img/slide-1.jpg";
 import slide_2 from "../../resources/assets/img/slide-2.jpg";
