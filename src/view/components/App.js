@@ -42,6 +42,7 @@ import GoodsPopupList from './Goods/GoodsPopupList';
 import GoodsList from './Goods/GoodsList';
 import GoodsDetail from './Goods/GoodsDetail';
 
+
 //css
 import '../../resources/assets/img/favicon.png';
 import '../../resources/assets/img/apple-touch-icon.png';
@@ -71,6 +72,7 @@ class App extends Component {
       window.location.pathname === "/popup/popuplist" ||
       window.location.pathname === "/board/boardlist" ||
       window.location.pathname.includes("/board/boardread")
+
     ) {
       return {
         isVisible: true
@@ -104,6 +106,7 @@ class App extends Component {
           <Route path="/member/updatepassword" Component={UpdatePassword} />
         </Routes>
         <Footer isVisible={this.state.isVisible} />
+
       </div>
     );
   }
