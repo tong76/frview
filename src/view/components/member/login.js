@@ -5,7 +5,7 @@ import axios from 'axios';
 import cookie from 'react-cookies';
 import Swal from 'sweetalert2';
 
-//import '../../../resources/assets/css/style.css';
+import '../../../resources/assets/css/style.css';
 //import '../../../resources/bootstrap/css/bootstrap.min.css';
 import '../../../resources/dist/css/AdminLTE.min.css';
 
@@ -99,7 +99,7 @@ const Login = () => {
 
                     <p class="ptag">처음 이용하시면 회원가입을 해주세요.</p>
                     <Link to={"/join"} class="atag" style={{ textDecoration: "none" }}>회원가입</Link>
-
+                    <Link to={"/member/findpassword"} class="atag" style={{ textDecoration: "none" }}>비밀번호찾기</Link>
                 </div>
 
             </div >

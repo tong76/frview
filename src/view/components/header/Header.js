@@ -39,6 +39,7 @@ const Header = (props) => {
             $("#isLogin").hide()
         }
         callSessionInfoApi()
+
     }, [active]);
 
     const callSessionInfoApi = () => {
@@ -153,6 +154,7 @@ const Header = (props) => {
                             </div>
 
                             <div id="isLogin" style={{display: "none"}}>
+
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">마이페이지</a>
                                     <div class="dropdown-menu">

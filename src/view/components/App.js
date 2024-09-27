@@ -27,11 +27,21 @@ import BoardRead from './Board/BoardRead';
 //회원기능
 import Join from './Member/Join';
 import Login from './Member/Login';
+import FindPassword from './Member/FindPassword';
+import EmailAuth from './Member/EmailAuth';
+import UpdatePassword from './Member/UpdatePassword';
+
+//회원정보
+import MemberInfo from './Member/MemberInfo';
+import ModifyInfo from './Member/ModifyInfo';
+import DeleteInfo from './Member/DeleteInfo';
+
 
 //굿즈
 import GoodsPopupList from './Goods/GoodsPopupList';
 import GoodsList from './Goods/GoodsList';
 import GoodsDetail from './Goods/GoodsDetail';
+
 
 //css
 import '../../resources/assets/img/favicon.png';
@@ -62,6 +72,7 @@ class App extends Component {
       window.location.pathname === "/popup/popuplist" ||
       window.location.pathname === "/board/boardlist" ||
       window.location.pathname.includes("/board/boardread")
+
     ) {
       return {
         isVisible: true
@@ -87,8 +98,15 @@ class App extends Component {
           <Route path='/goods/goodsdetail/:sno/:pno' Component={GoodsDetail} />
           <Route path="/login" Component={Login} />
           <Route path="/join" Component={Join} />
+          <Route path="/member/memberinfo" Component={MemberInfo} />
+          <Route path="/member/modifyinfo" Component={ModifyInfo} />
+          <Route path="/member/deleteinfo" Component={DeleteInfo} />
+          <Route path="/member/findpassword" Component={FindPassword} />
+          <Route path="/member/emailauth" Component={EmailAuth} />
+          <Route path="/member/updatepassword" Component={UpdatePassword} />
         </Routes>
         <Footer isVisible={this.state.isVisible} />
+
       </div>
     );
   }
